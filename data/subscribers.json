@@ -1,0 +1,22 @@
+[
+  {
+    "email": "vip.collector@royalluxury.com",
+    "subscribedAt": "2026-10-25T14:22:10.000Z",
+    "status": "active"
+  },
+  {
+    "email": "sophia.argyle@luxurybrand.org",
+    "subscribedAt": "2026-10-28T09:15:30.000Z",
+    "status": "active"
+  },
+  {
+    "email": "patron@royal.com",
+    "subscribedAt": "2026-10-31T15:42:57.658Z",
+    "status": "active"
+  },
+  {
+    "email": "client@example.com",
+    "subscribedAt": "2026-11-02T15:55:05.881Z",
+    "status": "active"
+  }
+]

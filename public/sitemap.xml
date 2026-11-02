@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>http://localhost:3000/</loc>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>http://localhost:3000/assets/images/hero-perfume.jpg</image:loc>
+      <image:title>L’Élixir Royal - Sovereign Oud Imperial Perfume</image:title>
+      <image:caption>Imperial fragrance handcrafted with Assamese Agarwood and French florals</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>http://localhost:3000/assets/images/brand-logo.png</image:loc>
+      <image:title>L’Élixir Royal Crest Emblem</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>http://localhost:3000/#collection</loc>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>http://localhost:3000/#about</loc>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>http://localhost:3000/#why-us</loc>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>http://localhost:3000/#reviews</loc>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+</urlset>

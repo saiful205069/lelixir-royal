@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <linearGradient id="bgCrest" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#181512"/>
+      <stop offset="100%" stop-color="#080706"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFE8B0"/>
+      <stop offset="40%" stop-color="#E8B868"/>
+      <stop offset="100%" stop-color="#9E681C"/>
+    </linearGradient>
+  </defs>
+  <rect width="200" height="200" rx="30" fill="url(#bgCrest)"/>
+  <circle cx="100" cy="100" r="84" fill="none" stroke="url(#goldGrad)" stroke-width="3"/>
+  <circle cx="100" cy="100" r="78" fill="none" stroke="url(#goldGrad)" stroke-width="1.5" stroke-dasharray="2 3"/>
+  <text x="100" y="116" font-family="'Playfair Display', Georgia, serif" font-size="48" font-weight="700" font-style="italic" fill="url(#goldGrad)" text-anchor="middle" letter-spacing="2">LR</text>
+  <path d="M82 66 L86 54 L92 60 L100 48 L108 60 L114 54 L118 66 Z" fill="url(#goldGrad)"/>
+  <circle cx="86" cy="52" r="2.5" fill="url(#goldGrad)"/>
+  <circle cx="100" cy="46" r="3" fill="url(#goldGrad)"/>
+  <circle cx="114" cy="52" r="2.5" fill="url(#goldGrad)"/>
+</svg>

@@ -1,0 +1,19 @@
+{
+  "name": "lelixir-royal",
+  "version": "1.0.0",
+  "description": "L’Élixir Royal - Haute Parfumerie Luxury E-Commerce & Landing Platform",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "engines": {
+    "node": ">=18.x"
+  },
+  "dependencies": {
+    "compression": "^1.8.2",
+    "cors": "^2.8.6",
+    "express": "^4.22.3"
+  }
+}

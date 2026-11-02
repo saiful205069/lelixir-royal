@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <linearGradient id="bgQueen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3A121E"/>
+      <stop offset="100%" stop-color="#18050B"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFE8B0"/>
+      <stop offset="40%" stop-color="#E8B868"/>
+      <stop offset="100%" stop-color="#9E681C"/>
+    </linearGradient>
+  </defs>
+  <rect width="200" height="200" rx="30" fill="url(#bgQueen)"/>
+  <circle cx="100" cy="100" r="82" fill="none" stroke="url(#goldGrad)" stroke-width="2" stroke-dasharray="4 3"/>
+  <ellipse cx="100" cy="100" rx="60" ry="72" fill="rgba(232, 184, 104, 0.08)" stroke="url(#goldGrad)" stroke-width="1.5"/>
+  <g fill="url(#goldGrad)">
+    <path d="M80 62 L87 48 L93 58 L100 44 L107 58 L113 48 L120 62 Z"/>
+    <path d="M98 62 C75 62, 68 76, 68 92 C68 112, 80 120, 88 126 C90 134, 82 144, 70 152 C84 152, 114 150, 126 136 C136 124, 134 100, 128 88 C122 74, 114 62, 98 62 Z"/>
+    <path d="M80 142 C92 148, 108 148, 120 142 C132 152, 140 162, 146 170 L54 170 C60 162, 68 152, 80 142 Z" opacity="0.9"/>
+  </g>
+</svg>

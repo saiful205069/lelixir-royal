@@ -1,0 +1,50 @@
+[
+  {
+    "id": "rev-1793486217545",
+    "name": "Farhan Ahmed",
+    "role": "Patron, Banani",
+    "avatar": "assets/images/stickers/sticker-queen.svg",
+    "rating": 5,
+    "product": "Celestial Blossom",
+    "headline": "Pure Royal Sophistication",
+    "comment": "From the majestic gold crest packaging to the longevity of the jasmine sillage, L’Élixir Royal delivers true haute parfumerie excellence.",
+    "verified": true,
+    "date": "2026-10-31"
+  },
+  {
+    "id": "rev-1793485721484",
+    "name": "Saiful islam",
+    "role": "Dhaka",
+    "avatar": "assets/images/customer-sophia.jpg",
+    "rating": 5,
+    "product": "Velvet Impériale",
+    "headline": "Good quoality",
+    "comment": "This is the most inportand of think of there service",
+    "verified": true,
+    "date": "2026-10-31"
+  },
+  {
+    "id": "rev-4",
+    "name": "Arman Chowdhury",
+    "role": "Fragrance Enthusiast, Dhaka",
+    "avatar": "assets/images/customer-alexander.jpg",
+    "rating": 5,
+    "product": "Sovereign Oud",
+    "headline": "Outstanding Quality and Longevity",
+    "comment": "Ordered Cash On Delivery in Dhaka and received it within 24 hours. The royal agarwood and amber projection lasts all day and into the night. Truly exceptional presentation and service.",
+    "verified": true,
+    "date": "2026-10-31"
+  },
+  {
+    "id": "rev-3",
+    "name": "Elena Rostova",
+    "role": "Jewelry Designer, Paris",
+    "avatar": "assets/images/customer-elena.jpg",
+    "rating": 5,
+    "product": "Celestial Blossom",
+    "headline": "Pure Parisian Elegance",
+    "comment": "The delicate balance between May rose and dewy violet is perfection. It feels like walking through an exclusive royal conservatory. Fast delivery and exquisite customer service.",
+    "verified": true,
+    "date": "2026-10-29"
+  }
+]

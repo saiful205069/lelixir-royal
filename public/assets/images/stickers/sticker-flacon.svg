@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <linearGradient id="bgFlacon" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1F1A24"/>
+      <stop offset="100%" stop-color="#0F0C12"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFE8B0"/>
+      <stop offset="40%" stop-color="#E8B868"/>
+      <stop offset="100%" stop-color="#9E681C"/>
+    </linearGradient>
+  </defs>
+  <rect width="200" height="200" rx="30" fill="url(#bgFlacon)"/>
+  <circle cx="100" cy="100" r="82" fill="none" stroke="url(#goldGrad)" stroke-width="2" stroke-dasharray="4 3"/>
+  <g transform="translate(100, 102) scale(0.95) translate(-100, -100)">
+    <rect x="82" y="42" width="36" height="22" rx="4" fill="url(#goldGrad)"/>
+    <rect x="88" y="64" width="24" height="8" rx="2" fill="url(#goldGrad)" opacity="0.8"/>
+    <path d="M60 76 L140 76 C144 76, 148 80, 146 86 L136 156 C134 162, 130 166, 124 166 L76 166 C70 166, 66 162, 64 156 L54 86 C52 80, 56 76, 60 76 Z" fill="url(#goldGrad)" fill-opacity="0.15" stroke="url(#goldGrad)" stroke-width="4"/>
+    <rect x="75" y="102" width="50" height="40" rx="4" fill="none" stroke="url(#goldGrad)" stroke-width="2"/>
+    <line x1="82" y1="116" x2="118" y2="116" stroke="url(#goldGrad)" stroke-width="2"/>
+    <line x1="88" y1="126" x2="112" y2="126" stroke="url(#goldGrad)" stroke-width="1.5"/>
+  </g>
+</svg>

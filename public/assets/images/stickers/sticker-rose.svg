@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <linearGradient id="bgRose" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2B1E19"/>
+      <stop offset="100%" stop-color="#140E0B"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFE8B0"/>
+      <stop offset="40%" stop-color="#E8B868"/>
+      <stop offset="100%" stop-color="#9E681C"/>
+    </linearGradient>
+  </defs>
+  <rect width="200" height="200" rx="30" fill="url(#bgRose)"/>
+  <circle cx="100" cy="100" r="82" fill="none" stroke="url(#goldGrad)" stroke-width="2" stroke-dasharray="4 3"/>
+  <g transform="translate(100, 100) scale(1.1) translate(-50, -50)" fill="none" stroke="url(#goldGrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M50 35 C38 35, 30 46, 35 58 C40 70, 50 82, 50 82 C50 82, 60 70, 65 58 C70 46, 62 35, 50 35 Z" fill="url(#goldGrad)" opacity="0.2"/>
+    <path d="M50 42 C45 42, 42 46, 44 52 C46 58, 50 64, 50 64 C50 64, 54 58, 56 52 C58 46, 55 42, 50 42 Z" fill="url(#goldGrad)" opacity="0.5"/>
+    <path d="M48 48 C46 48, 45 50, 46 54 C48 58, 50 60, 50 60 C50 60, 52 58, 54 54 C55 50, 54 48, 52 48 Z" fill="url(#goldGrad)"/>
+    <path d="M35 55 C25 60, 22 72, 32 80 C40 85, 48 84, 50 82"/>
+    <path d="M65 55 C75 60, 78 72, 68 80 C60 85, 52 84, 50 82"/>
+    <path d="M50 82 Q50 96 46 104" stroke-width="3"/>
+  </g>
+</svg>

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <linearGradient id="bgDiamond" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#11252B"/>
+      <stop offset="100%" stop-color="#081216"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFE8B0"/>
+      <stop offset="40%" stop-color="#E8B868"/>
+      <stop offset="100%" stop-color="#9E681C"/>
+    </linearGradient>
+  </defs>
+  <rect width="200" height="200" rx="30" fill="url(#bgDiamond)"/>
+  <circle cx="100" cy="100" r="82" fill="none" stroke="url(#goldGrad)" stroke-width="2" stroke-dasharray="4 3"/>
+  <g transform="translate(100, 104) scale(0.95) translate(-100, -100)" fill="url(#goldGrad)" fill-opacity="0.2" stroke="url(#goldGrad)" stroke-width="3" stroke-linejoin="round">
+    <polygon points="60,80 140,80 160,105 100,165 40,105"/>
+    <line x1="40" y1="105" x2="160" y2="105"/>
+    <line x1="60" y1="80" x2="80" y2="105"/>
+    <line x1="140" y1="80" x2="120" y2="105"/>
+    <line x1="100" y1="80" x2="100" y2="105"/>
+    <line x1="80" y1="105" x2="100" y2="165"/>
+    <line x1="120" y1="105" x2="100" y2="165"/>
+  </g>
+</svg>

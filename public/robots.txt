@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+Allow: /assets/
+Allow: /css/
+Allow: /js/
+
+# Disallow internal admin management console
+Disallow: /admin
+Disallow: /admin.html
+Disallow: /api/admin/
+
+# Sitemap location
+Sitemap: http://localhost:3000/sitemap.xml

@@ -1,0 +1,215 @@
+[
+  {
+    "id": "sovereign-oud",
+    "name": "Sovereign Oud",
+    "tagline": "Rare aged Assam agarwood melded with royal golden saffron",
+    "price": 3950,
+    "originalPrice": 5600,
+    "discount": "30% OFF",
+    "category": "Oud & Spices",
+    "rating": 5,
+    "reviewsCount": 312,
+    "image": "assets/images/sovereign-oud.jpg",
+    "description": "The signature emblem of L’Élixir Royal. Distilled from century-old vintage Assam agarwood and fused with pure Persian saffron threads, warm cinnamon bark, and golden labdanum. A fragrance of imperial sovereignty and majestic mystery.",
+    "volume": "100 ml / 3.4 FL. OZ.",
+    "concentration": "Pure Parfum Absolu (38% concentration)",
+    "longevity": "18+ Hours",
+    "sillage": "Immense Regal Trail",
+    "notes": {
+      "top": [
+        "Persian Saffron",
+        "Cardamom Absolute",
+        "Bitter Orange"
+      ],
+      "heart": [
+        "Taif Rose",
+        "Vintage Assam Agarwood",
+        "Smoked Leather"
+      ],
+      "base": [
+        "Golden Amber",
+        "Royal Sandalwood",
+        "Sweet Tobacco"
+      ]
+    },
+    "featured": true,
+    "badge": "Signature Masterpiece"
+  },
+  {
+    "id": "royal-rose-oud-458",
+    "name": "Royal Rose Oud",
+    "tagline": "Haute Parfumerie Exclusive",
+    "price": 3650,
+    "originalPrice": 4500,
+    "discount": "19% OFF",
+    "category": "Oud & Spices",
+    "rating": 5,
+    "reviewsCount": 1,
+    "image": "uploads/perfume-1793558021983-1000084617jpg.jpg",
+    "description": "Masterpiece perfume from L’Élixir Royal.",
+    "volume": "100 ml / 3.4 FL. OZ.",
+    "concentration": "Extrait de Parfum (30%)",
+    "longevity": "12+ Hours",
+    "sillage": "Regal Sillage",
+    "notes": {
+      "top": [
+        "Bergamot",
+        "Violet"
+      ],
+      "heart": [
+        "Rose",
+        "Jasmine"
+      ],
+      "base": [
+        "Oud",
+        "Amber"
+      ]
+    },
+    "featured": true,
+    "badge": "Limited Edition"
+  },
+  {
+    "id": "celestial-blossom",
+    "name": "Celestial Blossom",
+    "tagline": "A floral symphony of jasmine, patchouli for lasting elegance",
+    "price": 2850,
+    "originalPrice": 3500,
+    "discount": "20% OFF",
+    "category": "Floral",
+    "rating": 4.9,
+    "reviewsCount": 142,
+    "image": "uploads/perfume-1793558067492-1000084541jpg.jpg",
+    "description": "Celestial Blossom captures the transcendent poetry of royal botanical gardens at daybreak. An ethereal whisper of Grasse jasmine and Moroccan rose is delicately balanced with warm amber and Indonesian patchouli, creating an aura of timeless, regal grace.",
+    "volume": "100 ml / 3.4 FL. OZ.",
+    "concentration": "Extrait de Parfum (32% concentration)",
+    "longevity": "12+ Hours",
+    "sillage": "Intimate to Moderate",
+    "notes": {
+      "top": [
+        "Italian Bergamot",
+        "Wild Raspberry",
+        "Dewy Violet Leaf"
+      ],
+      "heart": [
+        "Jasmine Sambac",
+        "May Rose de Grasse",
+        "Florentine Orris"
+      ],
+      "base": [
+        "Indonesian Patchouli",
+        "Golden Amber",
+        "White Cashmere Musk"
+      ]
+    },
+    "featured": true,
+    "badge": "Best Seller"
+  },
+  {
+    "id": "noir-elixir",
+    "name": "Noir Elixir",
+    "tagline": "A bold blend of blackcurrant and musk for irresistible allure",
+    "price": 3450,
+    "originalPrice": 4200,
+    "discount": "18% OFF",
+    "category": "Woody Oriental",
+    "rating": 5,
+    "reviewsCount": 218,
+    "image": "uploads/perfume-1793558100028-1000084521jpg.jpg",
+    "description": "The enigmatic pinnacle of modern luxury. Noir Elixir opens with dark blackcurrant nectar and smoked saffron, plunging into a magnetic heart of black orchid and aged vetiver. Reserved for souls that command presence without speaking a word.",
+    "volume": "100 ml / 3.4 FL. OZ.",
+    "concentration": "Extrait de Parfum (35% concentration)",
+    "longevity": "14+ Hours",
+    "sillage": "Powerful & Enveloping",
+    "notes": {
+      "top": [
+        "Blackcurrant Nectar",
+        "Smoked Saffron",
+        "Pink Pepper"
+      ],
+      "heart": [
+        "Midnight Orchid",
+        "Damascus Rose",
+        "Incense Tears"
+      ],
+      "base": [
+        "Aged Haitian Vetiver",
+        "Dark Ambergris",
+        "Ebony Wood"
+      ]
+    },
+    "featured": true,
+    "badge": "Award Winner"
+  },
+  {
+    "id": "mystic-dawn",
+    "name": "Mystic Dawn",
+    "tagline": "A crisp blend of bergamot and fresh ambergris notes",
+    "price": 2250,
+    "originalPrice": 2800,
+    "discount": "20% OFF",
+    "category": "Fresh Citrus",
+    "rating": 4.8,
+    "reviewsCount": 96,
+    "image": "assets/images/mystic-dawn.jpg",
+    "description": "Crisp Mediterranean sea breeze infused with sun-drenched Calabrian bergamot and crystal marine accords. Mystic Dawn delivers an intoxicating jolt of vitality that evolves into soothing solar amber and cedarwood drift.",
+    "volume": "100 ml / 3.4 FL. OZ.",
+    "concentration": "Eau de Parfum (24% concentration)",
+    "longevity": "9+ Hours",
+    "sillage": "Moderate & Fresh",
+    "notes": {
+      "top": [
+        "Calabrian Bergamot",
+        "Sea Salt Mist",
+        "Green Mandarin"
+      ],
+      "heart": [
+        "Neroli Blossoms",
+        "Water Lily",
+        "Crushed Mint Leaves"
+      ],
+      "base": [
+        "Grey Ambergris",
+        "Virginian Cedar",
+        "Solar Musk"
+      ]
+    },
+    "featured": true,
+    "badge": "Summer Favorite"
+  },
+  {
+    "id": "fleur-royale",
+    "name": "Fleur Royale",
+    "tagline": "Rare white tuberose and magnolia woven with creamy Mysore sandalwood",
+    "price": 2950,
+    "originalPrice": 3600,
+    "discount": "18% OFF",
+    "category": "Floral",
+    "rating": 4.8,
+    "reviewsCount": 74,
+    "image": "assets/images/fleur-royale.jpg",
+    "description": "An aristocratic ode to pure white florals. Carnal night-blooming tuberose from India harmonizes with French magnolia and creamy sandalwood, radiating pure poise and magnetic charm.",
+    "volume": "100 ml / 3.4 FL. OZ.",
+    "concentration": "Eau de Parfum (25% concentration)",
+    "longevity": "10+ Hours",
+    "sillage": "Radiant & Chic",
+    "notes": {
+      "top": [
+        "Magnolia Petals",
+        "Green Pear",
+        "Neroli"
+      ],
+      "heart": [
+        "Indian Tuberose",
+        "Gardenia",
+        "Egyptian Jasmine"
+      ],
+      "base": [
+        "Mysore Sandalwood",
+        "Skin Musk",
+        "Soft Benzoin"
+      ]
+    },
+    "featured": true,
+    "badge": "Haute Exclusive"
+  }
+]
