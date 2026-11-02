@@ -3,7 +3,7 @@
    Styles & Design System
    =================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+/* Google Fonts preconnected in HTML head for maximum speed */
 
 :root {
   --font-serif: 'Cormorant Garamond', Georgia, serif;
@@ -50,12 +50,19 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto; /* Zero scroll bounce on page reload */
   font-size: 16px;
   background-color: var(--bg-primary);
   color: var(--text-main);
   font-family: var(--font-sans);
   line-height: 1.6;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Mobile Smooth Interactions & Zero-Lag Touch */
+button, a, input, select, textarea, .slider-dot, .filter-tab, .sticker-opt, .action-btn, .product-shop-btn {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -150,7 +157,7 @@ img {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid rgba(235, 228, 218, 0.7);
-  transition: all var(--transition-normal);
+  transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .site-header .container {
@@ -507,11 +514,13 @@ img {
   display: flex;
   align-items: center;
   justify-content: center;
+  contain: layout;
 }
 
 .hero-bottle-img {
   max-height: 480px;
   width: auto;
+  aspect-ratio: 420 / 480;
   object-fit: contain;
   filter: drop-shadow(0 25px 35px rgba(50, 30, 10, 0.22));
   transition: transform 0.5s ease;
@@ -860,11 +869,23 @@ img {
 .product-shop-btn:hover {
   background: var(--accent-gold-dark);
 }
+.product-price-wrap {
+  margin-left: auto;
+  text-align: right;
+  line-height: 1.15;
+}
 .product-price {
   font-family: var(--font-serif);
-  font-size: 1.5rem;
+  font-size: 1.45rem;
   font-weight: 700;
   color: var(--text-main);
+}
+.product-orig-price {
+  font-size: 0.85rem;
+  color: #9E9488;
+  text-decoration: line-through;
+  font-weight: 400;
+  margin-top: 2px;
 }
 
 /* ===================================================================
@@ -2068,13 +2089,18 @@ dialog#cart-drawer .modal-body {
     gap: 20px;
   }
 
-  /* Reviews / Testimonials */
+  /* Reviews / Testimonials — 100% Mobile Rock-Solid Layout Stability */
   .reviews-section {
     padding: 50px 0 70px;
   }
   .testimonial-card-wrap {
-    padding: 36px 20px;
+    padding: 30px 18px 24px;
     min-height: 480px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    contain: layout style;
+    box-sizing: border-box;
   }
   .card-arc-decor {
     width: 60px;
@@ -2084,30 +2110,111 @@ dialog#cart-drawer .modal-body {
   }
   .testimonial-heading {
     font-size: 1.8rem;
-    margin-bottom: 22px;
+    margin-bottom: 18px;
+    line-height: 1.25;
   }
   .testimonial-row {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 12px;
     text-align: center;
-    min-height: auto;
+    min-height: 330px;
+    align-items: center;
   }
   .testimonial-avatar-wrap {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     margin: 0 auto;
     border-radius: var(--radius-full);
+    border: 2.5px solid var(--accent-gold);
+    box-shadow: 0 4px 12px rgba(214, 151, 82, 0.2);
+    aspect-ratio: 1 / 1;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+  .testimonial-avatar-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
   .testimonial-content-col {
-    min-height: 240px;
+    height: 236px;
+    min-height: 236px;
+    max-height: 236px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    overflow: hidden;
   }
   .testimonial-quote-wrap {
-    min-height: 120px;
+    height: 135px;
+    min-height: 135px;
+    max-height: 135px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    overflow: hidden;
+  }
+  .testimonial-quote-head {
+    min-height: 26px;
+    max-height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 6px;
+    font-size: 1.15rem;
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+  }
+  .testimonial-quote-body {
+    font-size: 0.9rem;
+    line-height: 1.55;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    color: var(--text-muted);
+  }
+  .testimonial-author-meta {
+    height: 40px;
+    min-height: 40px;
+    max-height: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+  }
+  .testimonial-author-name {
+    font-size: 0.95rem;
+    line-height: 1.2;
+  }
+  .testimonial-author-role {
+    font-size: 0.8rem;
+    line-height: 1.2;
   }
   .testimonial-controls {
+    height: 44px;
+    min-height: 44px;
     justify-content: center;
-    margin-top: 16px;
+    align-items: center;
+    gap: 16px;
+    margin-top: 4px;
+  }
+  .slider-arrow-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    touch-action: manipulation;
   }
 
   /* Commitment to Purity */
@@ -2284,7 +2391,12 @@ dialog#cart-drawer .modal-body {
     padding: 8px 0;
   }
   .testimonial-card-wrap {
-    padding: 24px 14px;
+    padding: 24px 14px 20px;
+    min-height: 480px;
+  }
+  .testimonial-heading {
+    font-size: 1.55rem;
+    margin-bottom: 14px;
   }
   .modal-card {
     width: 98vw;

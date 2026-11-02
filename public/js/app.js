@@ -59,6 +59,7 @@ const state = {
 
 // Initialize Application
 function initApp() {
+  updateDynamicSEO();
   setupDialogLightDismiss();
   setupMobileMenu();
   setupHeroSlider();
@@ -75,11 +76,82 @@ function initApp() {
   setupSmoothScroll();
 }
 
+function updateDynamicSEO() {
+  try {
+    const origin = window.location.origin;
+    if (origin && !origin.includes('localhost') && !origin.includes('127.0.0.1')) {
+      const canonical = document.querySelector('link[rel="canonical"]');
+      if (canonical) canonical.href = origin + '/';
+      const ogUrl = document.querySelector('meta[property="og:url"]');
+      if (ogUrl) ogUrl.content = origin + '/';
+      const ogImg = document.querySelector('meta[property="og:image"]');
+      if (ogImg && ogImg.content.includes('localhost')) {
+        ogImg.content = origin + '/assets/images/hero-perfume.jpg';
+      }
+      const twImg = document.querySelector('meta[name="twitter:image"]');
+      if (twImg && twImg.content.includes('localhost')) {
+        twImg.content = origin + '/assets/images/hero-perfume.jpg';
+      }
+    }
+  } catch (e) {}
+}
+
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initApp);
 } else {
   initApp();
 }
+
+/* ===================================================================
+   GOOGLE ANALYTICS 4 & FIREBASE MEASUREMENT INTEGRATION
+   =================================================================== */
+function initAnalytics(gaId) {
+  if (!gaId || typeof gaId !== 'string') return;
+  const cleanId = gaId.trim();
+  if (!cleanId) return;
+
+  // Initialize dataLayer and gtag function globally if not already set
+  window.dataLayer = window.dataLayer || [];
+  if (typeof window.gtag !== 'function') {
+    window.gtag = function() {
+      window.dataLayer.push(arguments);
+    };
+  }
+
+  // Inject Google Analytics gtag.js script if not already present
+  let script = document.getElementById('google-analytics-script');
+  if (!script) {
+    script = document.createElement('script');
+    script.id = 'google-analytics-script';
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(cleanId)}`;
+    document.head.appendChild(script);
+
+    window.gtag('js', new Date());
+  }
+
+  // Configure Measurement ID (supports both Google Analytics and Firebase web streams)
+  window.gtag('config', cleanId, {
+    send_page_view: true,
+    page_title: document.title,
+    page_location: window.location.href
+  });
+
+  console.log('📊 Google Analytics & Firebase active with ID:', cleanId);
+}
+
+function trackAnalyticsEvent(eventName, params = {}) {
+  try {
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', eventName, params);
+      console.log(`📊 [Analytics Event] ${eventName}:`, params);
+    }
+  } catch (err) {
+    console.debug('Analytics tracking notice:', err);
+  }
+}
+window.initAnalytics = initAnalytics;
+window.trackAnalyticsEvent = trackAnalyticsEvent;
 
 async function fetchSettings() {
   try {
@@ -88,6 +160,9 @@ async function fetchSettings() {
     if (json.success && json.data) {
       state.settings = json.data;
       applyDynamicContent(json.data);
+      if (json.data.googleAnalyticsId) {
+        initAnalytics(json.data.googleAnalyticsId);
+      }
     }
   } catch (e) {
     console.error('Error loading settings:', e);
@@ -101,6 +176,13 @@ function applyDynamicContent(s) {
     const el = document.getElementById(id);
     if (el && val !== undefined && val !== null && String(val).trim() !== '') {
       el.textContent = val;
+    }
+  };
+
+  const setImg = (id, src) => {
+    const el = document.getElementById(id);
+    if (el && src && String(src).trim() !== '') {
+      el.src = src;
     }
   };
 
@@ -124,10 +206,15 @@ function applyDynamicContent(s) {
   setTxt('about-subtitle-el', s.aboutSubtitle);
   setTxt('about-desc1-el', s.aboutDesc1);
   setTxt('about-desc2-el', s.aboutDesc2);
+  setImg('about-img-el', s.aboutImage);
 
   // Why Choose Us
   setTxt('why-subtitle-el', s.whySubtitle);
   setTxt('why-title-el', s.whyTitle);
+  setImg('why-img-1', s.whyImage1);
+  setImg('why-img-2', s.whyImage2);
+  setImg('why-img-3', s.whyImage3);
+  setImg('why-img-4', s.whyImage4);
   setTxt('feat-title-1', s.feat1Title);
   setTxt('feat-desc-1', s.feat1Desc);
   setTxt('feat-title-2', s.feat2Title);
@@ -230,7 +317,6 @@ function updateHeroFromProducts(products) {
   const selected = featured.length > 0 ? featured : products.slice(0, 3);
 
   state.heroPerfumes = selected.map(p => {
-    // Calculate offer discount percentage (e.g., "30% OFF")
     let discountStr = '';
     if (p.discount && String(p.discount).includes('%')) {
       discountStr = String(p.discount).trim();
@@ -246,16 +332,39 @@ function updateHeroFromProducts(products) {
       name: p.name,
       tagline: p.tagline || 'Haute Parfumerie Exclusive',
       description: p.description || 'Masterpiece perfume from L’Élixir Royal.',
-      image: p.image || 'assets/images/hero-perfume.jpg',
+      image: (p.id === 'sovereign-oud') ? 'assets/images/hero-perfume.jpg' : (p.image || 'assets/images/hero-perfume.jpg'),
       price: p.price,
       originalPrice: p.originalPrice,
-      discountBadge: discountStr, // Dedicated strictly to the Offer % (e.g. "30% OFF")
+      discountBadge: discountStr,
       badge: p.badge || ''
     };
   });
 
   setupHeroSlider(false);
 }
+
+function handleHeroShopNow(e) {
+  if (e) e.preventDefault();
+  const current = (state.heroPerfumes && state.heroPerfumes[state.heroIndex]) || (state.products && state.products[0]);
+  if (current) {
+    addToCart(current.id);
+    renderCartDrawer();
+    openModal('cart-drawer');
+  } else {
+    const col = document.getElementById('collection');
+    if (col) col.scrollIntoView({ behavior: 'smooth' });
+  }
+}
+window.handleHeroShopNow = handleHeroShopNow;
+
+function handleHeroViewDetails(e) {
+  if (e) e.preventDefault();
+  const current = (state.heroPerfumes && state.heroPerfumes[state.heroIndex]) || (state.products && state.products[0]);
+  if (current) {
+    openQuickView(current.id);
+  }
+}
+window.handleHeroViewDetails = handleHeroViewDetails;
 
 function renderHero(index, isInteractiveSlide = false) {
   if (!state.heroPerfumes || state.heroPerfumes.length === 0) return;
@@ -271,7 +380,9 @@ function renderHero(index, isInteractiveSlide = false) {
       bottleImg.style.opacity = '0.3';
       bottleImg.style.transform = 'scale(0.96)';
       setTimeout(() => {
-        bottleImg.src = current.image;
+        if (!bottleImg.src.endsWith(current.image)) {
+          bottleImg.src = current.image;
+        }
         bottleImg.alt = current.name;
         bottleImg.title = `${current.name} - ৳${(current.price || 0).toLocaleString('en-BD')}`;
         bottleImg.style.opacity = '1';
@@ -279,8 +390,9 @@ function renderHero(index, isInteractiveSlide = false) {
       }, 120);
     } else {
       // Instant rendering on load / refresh — ZERO FLICKER!
-      bottleImg.style.transition = 'none';
-      bottleImg.src = current.image;
+      if (!bottleImg.src.endsWith(current.image)) {
+        bottleImg.src = current.image;
+      }
       bottleImg.alt = current.name;
       bottleImg.title = `${current.name} - ৳${(current.price || 0).toLocaleString('en-BD')}`;
       bottleImg.style.opacity = '1';
@@ -320,64 +432,61 @@ function setupHeroSlider(animate = false) {
   const dotsContainer = document.querySelector('.slider-dots');
 
   // Render dots dynamically matching hero perfumes count
-  if (dotsContainer) {
+  if (dotsContainer && !dotsContainer.dataset.initialized) {
+    dotsContainer.dataset.initialized = 'true';
     dotsContainer.innerHTML = state.heroPerfumes.map((_, idx) => 
       `<span class="slider-dot ${idx === state.heroIndex ? 'active' : ''}" data-index="${idx}" aria-label="Slide ${idx + 1}"></span>`
     ).join('');
+    
+    dotsContainer.querySelectorAll('.slider-dot').forEach(dot => {
+      dot.onclick = (e) => {
+        const idx = parseInt(e.target.dataset.index, 10);
+        if (!isNaN(idx)) renderHero(idx, true);
+      };
+    });
   }
 
-  // Bind controls with direct onclick to avoid duplicate listeners
-  if (prevBtn) {
+  // Bind controls with direct onclick once
+  if (prevBtn && !prevBtn.dataset.bound) {
+    prevBtn.dataset.bound = 'true';
     prevBtn.onclick = () => renderHero(state.heroIndex - 1, true);
   }
-  if (nextBtn) {
+  if (nextBtn && !nextBtn.dataset.bound) {
+    nextBtn.dataset.bound = 'true';
     nextBtn.onclick = () => renderHero(state.heroIndex + 1, true);
   }
 
-  const dots = document.querySelectorAll('.slider-dot');
-  dots.forEach(dot => {
-    dot.onclick = (e) => {
-      const idx = parseInt(e.target.dataset.index, 10);
-      if (!isNaN(idx)) renderHero(idx, true);
-    };
-  });
-
-function handleHeroShopNow(e) {
-  if (e) e.preventDefault();
-  const current = (state.heroPerfumes && state.heroPerfumes[state.heroIndex]) || (state.products && state.products[0]);
-  if (current) {
-    addToCart(current.id);
-    renderCartDrawer();
-    openModal('cart-drawer');
-  } else {
-    const col = document.getElementById('collection');
-    if (col) col.scrollIntoView({ behavior: 'smooth' });
-  }
-}
-window.handleHeroShopNow = handleHeroShopNow;
-
-function handleHeroViewDetails(e) {
-  if (e) e.preventDefault();
-  const current = (state.heroPerfumes && state.heroPerfumes[state.heroIndex]) || (state.products && state.products[0]);
-  if (current) {
-    openQuickView(current.id);
-  }
-}
-window.handleHeroViewDetails = handleHeroViewDetails;
-
-// Hero CTA Buttons
+  // Hero CTA Buttons (bound once)
   const heroShopNow = document.getElementById('hero-shop-now-btn');
-  if (heroShopNow) {
+  if (heroShopNow && !heroShopNow.dataset.bound) {
+    heroShopNow.dataset.bound = 'true';
     heroShopNow.onclick = (e) => handleHeroShopNow(e);
   }
 
   const heroViewDetails = document.getElementById('hero-view-details-btn');
-  if (heroViewDetails) {
+  if (heroViewDetails && !heroViewDetails.dataset.bound) {
+    heroViewDetails.dataset.bound = 'true';
     heroViewDetails.onclick = (e) => handleHeroViewDetails(e);
   }
 
-  // Initial render of current hero product (NO flicker)
-  renderHero(state.heroIndex, animate);
+  // Mobile Swipe Gesture Support for Hero Perfume (bound once)
+  const heroBottleWrap = document.querySelector('.hero-bottle-wrap');
+  if (heroBottleWrap && !heroBottleWrap.dataset.hasSwipe) {
+    heroBottleWrap.dataset.hasSwipe = 'true';
+    let startX = 0;
+    heroBottleWrap.addEventListener('touchstart', (e) => {
+      startX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    heroBottleWrap.addEventListener('touchend', (e) => {
+      const endX = e.changedTouches[0].screenX;
+      if (startX - endX > 45) renderHero(state.heroIndex + 1, true);
+      else if (endX - startX > 45) renderHero(state.heroIndex - 1, true);
+    }, { passive: true });
+  }
+
+  if (animate) {
+    renderHero(state.heroIndex, true);
+  }
 }
 
 /* ===================================================================
@@ -409,6 +518,12 @@ function renderProducts(items) {
         <p>Select another category or explore our signature creations.</p>
       </div>
     `;
+    grid.dataset.renderedCategory = state.currentCategory;
+    return;
+  }
+
+  // Prevent destructive layout shift on initial load if products are already pre-rendered
+  if (grid.dataset.renderedCategory === state.currentCategory && grid.children.length === items.length) {
     return;
   }
 
@@ -420,7 +535,7 @@ function renderProducts(items) {
       </div>
       <div class="product-details">
         <h3 class="product-title">${p.name}</h3>
-        <p class="product-tagline">${p.tagline}</p>
+        <p class="product-tagline">${p.tagline || ''}</p>
         <div class="product-bottom-row" style="gap: 8px;">
           <button type="button" class="product-shop-btn" onclick="expressBuyNow('${p.id}')" title="Instant 1-Click Order (Cash On Delivery)">
             Order Now
@@ -431,11 +546,15 @@ function renderProducts(items) {
           <button type="button" style="font-size: 0.8rem; text-decoration: underline; color: #6B655F; padding: 4px;" onclick="openQuickView('${p.id}')" title="Inspect Olfactory Notes">
             Notes
           </button>
-          <div class="product-price" style="font-size: 1.35rem;">৳${p.price.toLocaleString('en-BD')}</div>
+          <div class="product-price-wrap">
+            <div class="product-price">৳${Number(p.price).toLocaleString('en-BD')}</div>
+            ${p.originalPrice ? `<div class="product-orig-price">৳${Number(p.originalPrice).toLocaleString('en-BD')}</div>` : ''}
+          </div>
         </div>
       </div>
     </article>
   `).join('');
+  grid.dataset.renderedCategory = state.currentCategory;
 }
 
 // 1-Click Express Purchase for Bangladeshi Customers
@@ -551,6 +670,18 @@ async function openQuickView(productId) {
       </div>
     `;
     openModal('quickview-dialog');
+
+    trackAnalyticsEvent('view_item', {
+      currency: 'BDT',
+      value: product.price,
+      items: [{
+        item_id: String(product.id),
+        item_name: product.name,
+        item_category: product.category || 'Perfumes',
+        price: product.price,
+        quantity: 1
+      }]
+    });
   }
 }
 
@@ -628,6 +759,18 @@ function addToCart(productId) {
   saveCart();
   updateCartBadge();
   showToast(`${product.name} added to your cart!`, '✨');
+
+  trackAnalyticsEvent('add_to_cart', {
+    currency: 'BDT',
+    value: product.price,
+    items: [{
+      item_id: String(product.id),
+      item_name: product.name,
+      item_category: product.category || 'Perfumes',
+      price: product.price,
+      quantity: 1
+    }]
+  });
 }
 
 function updateCartQuantity(productId, delta) {
@@ -738,6 +881,17 @@ function openCheckoutModal() {
   }
   updateCheckoutCalculation();
   openModal('checkout-dialog');
+
+  trackAnalyticsEvent('begin_checkout', {
+    currency: 'BDT',
+    value: state.cart.reduce((sum, i) => sum + (Number(i.price) * Number(i.quantity)), 0),
+    items: state.cart.map(i => ({
+      item_id: String(i.id),
+      item_name: i.name,
+      price: i.price,
+      quantity: i.quantity
+    }))
+  });
 }
 
 function onCityChange(val) {
@@ -829,6 +983,20 @@ function setupCheckoutForm() {
         displayOrderConfirmation(res.order);
         form.reset();
         showToast('Your royal order has been confirmed successfully!', '🎉');
+
+        trackAnalyticsEvent('purchase', {
+          transaction_id: res.order?.orderId || ('LR-' + Date.now()),
+          value: res.order?.total || 0,
+          currency: 'BDT',
+          shipping: res.order?.shipping || 0,
+          tax: 0,
+          items: (res.order?.items || []).map(item => ({
+            item_id: String(item.id),
+            item_name: item.name,
+            price: item.price,
+            quantity: item.quantity
+          }))
+        });
       } else {
         alert(res.message || 'There was an issue processing your order.');
       }
@@ -1035,11 +1203,11 @@ function renderCurrentReview(isInteractive = false) {
   const authorRole = document.getElementById('review-author-role');
 
   const updateFields = () => {
-    if (avatar) avatar.src = rev.avatar;
-    if (quoteHead) quoteHead.textContent = rev.headline;
-    if (quoteBody) quoteBody.textContent = rev.comment;
-    if (authorName) authorName.textContent = rev.name;
-    if (authorRole) authorRole.textContent = rev.role;
+    if (avatar && !avatar.src.endsWith(rev.avatar)) avatar.src = rev.avatar;
+    if (quoteHead && quoteHead.textContent !== rev.headline) quoteHead.textContent = rev.headline;
+    if (quoteBody && quoteBody.textContent !== rev.comment) quoteBody.textContent = rev.comment;
+    if (authorName && authorName.textContent !== rev.name) authorName.textContent = rev.name;
+    if (authorRole && authorRole.textContent !== rev.role) authorRole.textContent = rev.role;
   };
 
   if (isInteractive && col) {
@@ -1072,6 +1240,28 @@ function setupReviewControls() {
       state.currentReviewIndex = (state.currentReviewIndex + 1) % state.reviews.length;
       renderCurrentReview(true);
     };
+  }
+
+  // Mobile Swipe Gesture Support for Customer Reviews
+  const reviewCard = document.querySelector('.testimonial-card-wrap');
+  if (reviewCard && !reviewCard.dataset.hasSwipe) {
+    reviewCard.dataset.hasSwipe = 'true';
+    let touchStartX = 0;
+    reviewCard.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    reviewCard.addEventListener('touchend', (e) => {
+      const touchEndX = e.changedTouches[0].screenX;
+      const diff = touchEndX - touchStartX;
+      if (Math.abs(diff) > 40) {
+        if (diff < 0) {
+          state.currentReviewIndex = (state.currentReviewIndex + 1) % state.reviews.length;
+        } else {
+          state.currentReviewIndex = (state.currentReviewIndex - 1 + state.reviews.length) % state.reviews.length;
+        }
+        renderCurrentReview(true);
+      }
+    }, { passive: true });
   }
 
   const writeReviewBtn = document.getElementById('write-review-trigger');

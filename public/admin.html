@@ -488,7 +488,7 @@
             <label class="login-label" for="login-username">ইউজারনেম (Username)</label>
             <div class="login-field-wrap">
               <span class="login-icon">👤</span>
-              <input type="text" id="login-username" class="login-input" placeholder="admin" autocomplete="username" required autofocus />
+              <input type="text" id="login-username" class="login-input" placeholder="আপনার ইউজারনেম" autocomplete="username" required autofocus />
             </div>
           </div>
 
@@ -499,15 +499,6 @@
               <input type="password" id="login-password" class="login-input" placeholder="••••••••" autocomplete="current-password" required />
               <button type="button" class="login-toggle-pwd" onclick="togglePasswordVisibility()" aria-label="Toggle password visibility">👁️</button>
             </div>
-          </div>
-
-          <!-- Quick Autofill Helper for Atelier Admin -->
-          <div style="margin-bottom: 20px; padding: 12px 14px; background: rgba(214,151,82,0.12); border: 1px dashed rgba(214,151,82,0.4); border-radius: 8px; font-size: 0.8rem; color: #E0D4C5; display: flex; justify-content: space-between; align-items: center; gap: 10px;">
-            <div>
-              <strong style="color: var(--admin-gold);">ডিফল্ট লগইন ক্রেডেনশিয়াল:</strong><br>
-              User: <code style="color: #F8C380; font-weight: 700;">admin</code> &nbsp;|&nbsp; Pass: <code style="color: #F8C380; font-weight: 700;">admin123</code>
-            </div>
-            <button type="button" onclick="document.getElementById('login-username').value='admin';document.getElementById('login-password').value='admin123';showAdminToast('লগইন তথ্য পূরণ করা হয়েছে!', '🔑');" style="background: var(--admin-gold); color: #14110E; border: none; padding: 6px 12px; border-radius: 6px; font-size: 0.78rem; font-weight: 700; cursor: pointer; white-space: nowrap; transition: filter 0.2s;">Auto Fill ⚡</button>
           </div>
 
           <button type="submit" id="login-submit-btn" class="login-btn">
@@ -768,6 +759,33 @@
                 <label class="form-label">২য় অনুচ্ছেদ (Paragraph 2)</label>
                 <textarea id="content-aboutDesc2" class="form-control" rows="2" placeholder="Born in the historic perfume corridors of Grasse..."></textarea>
               </div>
+
+              <!-- About Us Photo Control -->
+              <div class="form-group full-width" style="border-top: 1px dashed var(--admin-border); padding-top: 16px; margin-top: 8px;">
+                <label class="form-label" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                  <span>🖼️ অ্যাবাউট সেকশনের ছবি (About Us Photo)</span>
+                  <span style="font-size: 0.75rem; color: var(--admin-gold); font-weight: normal;">মোবাইল/পিসি গ্যালারি থেকে সরাসরি পরিবর্তনযোগ্য</span>
+                </label>
+                
+                <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap; background: rgba(0,0,0,0.02); padding: 14px; border-radius: var(--radius-sm); border: 1px solid var(--admin-border);">
+                  <div style="width: 100px; height: 100px; border-radius: 8px; overflow: hidden; border: 1px solid var(--admin-border); background: #f5f5f5; flex-shrink: 0;">
+                    <img id="content-aboutImage-preview" src="assets/images/about-hand-perfume.jpg" alt="About Us Preview" style="width: 100%; height: 100%; object-fit: cover;" />
+                  </div>
+                  <div style="flex: 1; min-width: 220px;">
+                    <div style="display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap;">
+                      <button type="button" class="btn btn-secondary" style="padding: 6px 14px; font-size: 0.85rem;" onclick="document.getElementById('content-aboutImage-file').click()">
+                        📁 গ্যালারি থেকে ছবি আপলোড করুন
+                      </button>
+                      <button type="button" class="btn-action" style="padding: 6px 12px; font-size: 0.8rem;" onclick="resetSectionImage('content-aboutImage', 'content-aboutImage-preview', 'assets/images/about-hand-perfume.jpg', 'about-upload-status')">
+                        রিসেট
+                      </button>
+                    </div>
+                    <input type="file" id="content-aboutImage-file" accept="image/*" style="display: none;" onchange="handleSectionImageUpload(event, 'content-aboutImage', 'content-aboutImage-preview', 'about-upload-status')" />
+                    <input type="text" id="content-aboutImage" class="form-control" style="font-size: 0.85rem;" placeholder="assets/images/about-hand-perfume.jpg বা ছবির লিঙ্ক দিন" oninput="updateImagePreview(this.value, 'content-aboutImage-preview')" />
+                    <div id="about-upload-status" style="font-size: 0.78rem; color: #7A7269; margin-top: 4px;">বর্তমান ছবি: about-hand-perfume.jpg</div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -825,6 +843,80 @@
               <div class="form-group">
                 <label class="form-label">ফিচার ০৪ বিবরণ</label>
                 <input type="text" id="content-feat4Desc" class="form-control" placeholder="Discover scents as rare and unique..." />
+              </div>
+
+              <!-- Why Choose Us Moodboard Photos (4 Collage Images) -->
+              <div class="form-group full-width" style="border-top: 1px dashed var(--admin-border); padding-top: 16px; margin-top: 12px;">
+                <label class="form-label" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                  <span>🖼️ হোয়াই চুজ আস ৪টি কোলাজ ছবি (4 Moodboard Collage Images)</span>
+                  <span style="font-size: 0.75rem; color: var(--admin-gold); font-weight: normal;">প্রতিটি ছবি আলাদাভাবে গ্যালারি থেকে পরিবর্তন করতে পারবেন</span>
+                </label>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px;">
+                  <!-- Photo 1 -->
+                  <div style="background: rgba(0,0,0,0.02); padding: 12px; border-radius: var(--radius-sm); border: 1px solid var(--admin-border);">
+                    <div style="font-size: 0.82rem; font-weight: 700; margin-bottom: 8px; color: var(--admin-text);">ছবি ০১ (উপরের বামে)</div>
+                    <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 8px;">
+                      <img id="content-whyImage1-preview" src="assets/images/why-1.jpg" style="width: 55px; height: 55px; border-radius: 6px; object-fit: cover; border: 1px solid var(--admin-border);" />
+                      <div style="flex: 1;">
+                        <button type="button" class="btn btn-secondary" style="padding: 4px 10px; font-size: 0.78rem; width: 100%; margin-bottom: 4px;" onclick="document.getElementById('content-whyImage1-file').click()">
+                          📁 আপলোড ছবি ০১
+                        </button>
+                        <input type="file" id="content-whyImage1-file" accept="image/*" style="display: none;" onchange="handleSectionImageUpload(event, 'content-whyImage1', 'content-whyImage1-preview', 'why1-status')" />
+                        <div id="why1-status" style="font-size: 0.72rem; color: #7A7269;">why-1.jpg</div>
+                      </div>
+                    </div>
+                    <input type="text" id="content-whyImage1" class="form-control" style="font-size: 0.8rem;" placeholder="assets/images/why-1.jpg" oninput="updateImagePreview(this.value, 'content-whyImage1-preview')" />
+                  </div>
+
+                  <!-- Photo 2 -->
+                  <div style="background: rgba(0,0,0,0.02); padding: 12px; border-radius: var(--radius-sm); border: 1px solid var(--admin-border);">
+                    <div style="font-size: 0.82rem; font-weight: 700; margin-bottom: 8px; color: var(--admin-text);">ছবি ০২ (উপরের ডানে)</div>
+                    <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 8px;">
+                      <img id="content-whyImage2-preview" src="assets/images/why-2.jpg" style="width: 55px; height: 55px; border-radius: 6px; object-fit: cover; border: 1px solid var(--admin-border);" />
+                      <div style="flex: 1;">
+                        <button type="button" class="btn btn-secondary" style="padding: 4px 10px; font-size: 0.78rem; width: 100%; margin-bottom: 4px;" onclick="document.getElementById('content-whyImage2-file').click()">
+                          📁 আপলোড ছবি ০২
+                        </button>
+                        <input type="file" id="content-whyImage2-file" accept="image/*" style="display: none;" onchange="handleSectionImageUpload(event, 'content-whyImage2', 'content-whyImage2-preview', 'why2-status')" />
+                        <div id="why2-status" style="font-size: 0.72rem; color: #7A7269;">why-2.jpg</div>
+                      </div>
+                    </div>
+                    <input type="text" id="content-whyImage2" class="form-control" style="font-size: 0.8rem;" placeholder="assets/images/why-2.jpg" oninput="updateImagePreview(this.value, 'content-whyImage2-preview')" />
+                  </div>
+
+                  <!-- Photo 3 -->
+                  <div style="background: rgba(0,0,0,0.02); padding: 12px; border-radius: var(--radius-sm); border: 1px solid var(--admin-border);">
+                    <div style="font-size: 0.82rem; font-weight: 700; margin-bottom: 8px; color: var(--admin-text);">ছবি ০৩ (নিচের বামে)</div>
+                    <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 8px;">
+                      <img id="content-whyImage3-preview" src="assets/images/why-3.jpg" style="width: 55px; height: 55px; border-radius: 6px; object-fit: cover; border: 1px solid var(--admin-border);" />
+                      <div style="flex: 1;">
+                        <button type="button" class="btn btn-secondary" style="padding: 4px 10px; font-size: 0.78rem; width: 100%; margin-bottom: 4px;" onclick="document.getElementById('content-whyImage3-file').click()">
+                          📁 আপলোড ছবি ০৩
+                        </button>
+                        <input type="file" id="content-whyImage3-file" accept="image/*" style="display: none;" onchange="handleSectionImageUpload(event, 'content-whyImage3', 'content-whyImage3-preview', 'why3-status')" />
+                        <div id="why3-status" style="font-size: 0.72rem; color: #7A7269;">why-3.jpg</div>
+                      </div>
+                    </div>
+                    <input type="text" id="content-whyImage3" class="form-control" style="font-size: 0.8rem;" placeholder="assets/images/why-3.jpg" oninput="updateImagePreview(this.value, 'content-whyImage3-preview')" />
+                  </div>
+
+                  <!-- Photo 4 -->
+                  <div style="background: rgba(0,0,0,0.02); padding: 12px; border-radius: var(--radius-sm); border: 1px solid var(--admin-border);">
+                    <div style="font-size: 0.82rem; font-weight: 700; margin-bottom: 8px; color: var(--admin-text);">ছবি ০৪ (নিচের ডানে)</div>
+                    <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 8px;">
+                      <img id="content-whyImage4-preview" src="assets/images/why-4.jpg" style="width: 55px; height: 55px; border-radius: 6px; object-fit: cover; border: 1px solid var(--admin-border);" />
+                      <div style="flex: 1;">
+                        <button type="button" class="btn btn-secondary" style="padding: 4px 10px; font-size: 0.78rem; width: 100%; margin-bottom: 4px;" onclick="document.getElementById('content-whyImage4-file').click()">
+                          📁 আপলোড ছবি ০৪
+                        </button>
+                        <input type="file" id="content-whyImage4-file" accept="image/*" style="display: none;" onchange="handleSectionImageUpload(event, 'content-whyImage4', 'content-whyImage4-preview', 'why4-status')" />
+                        <div id="why4-status" style="font-size: 0.72rem; color: #7A7269;">why-4.jpg</div>
+                      </div>
+                    </div>
+                    <input type="text" id="content-whyImage4" class="form-control" style="font-size: 0.8rem;" placeholder="assets/images/why-4.jpg" oninput="updateImagePreview(this.value, 'content-whyImage4-preview')" />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -1054,6 +1146,18 @@
               <textarea id="setting-smsTemplate" class="form-control" rows="2" placeholder="L’Élixir Royal: প্রিয় {customerName}, আপনার পারফিউম অর্ডারটি সফলভাবে নিশ্চিত হয়েছে! Order Tracking ID: {orderId}..."></textarea>
             </div>
 
+            <!-- Google Analytics & Firebase Tracking Integration -->
+            <div class="form-group full-width" style="border-top: 1px solid var(--admin-border); padding-top: 20px; margin-top: 12px;">
+              <h3 style="font-family: var(--font-serif); font-size: 1.25rem; color: var(--admin-text); margin: 0 0 6px 0;">📊 Google Analytics & Firebase লাইভ ট্র্যাকিং</h3>
+              <p style="font-size: 0.85rem; color: #7E756B; margin: 0;">আপনার Google Analytics 4 (GA4) বা Firebase Measurement ID এখানে দিন (যেমন: <code>G-XXXXXXXXXX</code>)। এটি যুক্ত করলে আপনার ওয়েবসাইটের লাইভ ভিজিটর, প্রোডাক্ট ভিউ, ব্যাগ/কার্ট ও সেলসের সকল অ্যানালিটিক্স রিপোর্ট রিয়েল-টাইমে দেখতে পাবেন:</p>
+            </div>
+
+            <div class="form-group full-width">
+              <label class="form-label">Google Analytics / Firebase Measurement ID (G-XXXXXXXXXX)</label>
+              <input type="text" id="setting-googleAnalyticsId" class="form-control" placeholder="G-XXXXXXXXXX (যেমন: G-4K9W8EZXYZ)" />
+              <small style="color: #7E756B; font-size: 0.78rem; display: block; margin-top: 4px;">Google Analytics অথবা Firebase Console ➔ Analytics ➔ Data Streams ➔ Web থেকে Measurement ID কপি করে এখানে পেস্ট করুন।</small>
+            </div>
+
             <!-- Admin Login Credentials Section -->
             <div class="form-group full-width" style="border-top: 1px solid var(--admin-border); padding-top: 20px; margin-top: 12px;">
               <h3 style="font-family: var(--font-serif); font-size: 1.25rem; color: var(--admin-text); margin: 0 0 6px 0;">🔐 অ্যাডমিন লগইন সিকিউরিটি ও পাসওয়ার্ড পরিবর্তন</h3>
@@ -1067,7 +1171,7 @@
 
             <div class="form-group">
               <label class="form-label">অ্যাডমিন পাসওয়ার্ড (Password)</label>
-              <input type="text" id="setting-adminPassword" class="form-control" placeholder="admin123" required />
+              <input type="password" id="setting-adminPassword" class="form-control" placeholder="নতুন পাসওয়ার্ড দিন" required />
             </div>
           </div>
 
@@ -1695,6 +1799,82 @@
       document.getElementById('crud-upload-status').style.color = '#1565C0';
     }
 
+    // Section Image Uploaders & Previews (About Us & Why Choose Us)
+    function updateImagePreview(val, previewId) {
+      const el = document.getElementById(previewId);
+      if (el && val) {
+        el.src = val;
+      }
+    }
+
+    function resetSectionImage(inputId, previewId, defaultPath, statusId) {
+      const input = document.getElementById(inputId);
+      const preview = document.getElementById(previewId);
+      const status = statusId ? document.getElementById(statusId) : null;
+      if (input) input.value = defaultPath;
+      if (preview) preview.src = defaultPath;
+      if (status) {
+        status.textContent = 'ডিফল্ট ছবি';
+        status.style.color = '#7A7269';
+      }
+    }
+
+    async function handleSectionImageUpload(e, targetInputId, previewImgId, statusElId) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      if (!file.type.startsWith('image/')) {
+        alert('দয়া করে একটি ইমেজ ফাইল (JPG, PNG, WEBP) নির্বাচন করুন।');
+        return;
+      }
+
+      const statusEl = statusElId ? document.getElementById(statusElId) : null;
+      const previewImg = previewImgId ? document.getElementById(previewImgId) : null;
+
+      if (statusEl) {
+        statusEl.textContent = 'আপলোড হচ্ছে...';
+        statusEl.style.color = 'var(--admin-gold)';
+      }
+
+      const reader = new FileReader();
+      reader.onload = async function(evt) {
+        if (previewImg) previewImg.src = evt.target.result;
+        try {
+          const res = await fetch('/api/upload', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              image: evt.target.result,
+              filename: file.name
+            })
+          });
+          const data = await res.json();
+          if (data.success && data.imageUrl) {
+            const input = document.getElementById(targetInputId);
+            if (input) input.value = data.imageUrl;
+            if (statusEl) {
+              statusEl.textContent = '✓ আপলোড সম্পন্ন!';
+              statusEl.style.color = '#2E7D32';
+            }
+            showToast('ছবি সফলভাবে আপলোড হয়েছে! পরিবর্তনটি চিরস্থায়ী করতে Save Content ক্লিক করুন।', '🖼️');
+          } else {
+            alert(data.message || 'ছবি আপলোড করতে সমস্যা হয়েছে');
+            if (statusEl) {
+              statusEl.textContent = '✕ আপলোড ব্যর্থ';
+              statusEl.style.color = '#C62828';
+            }
+          }
+        } catch (err) {
+          alert('ছবি আপলোড করতে সমস্যা হয়েছে: ' + err.message);
+          if (statusEl) {
+            statusEl.textContent = '✕ আপলোড ব্যর্থ';
+            statusEl.style.color = '#C62828';
+          }
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+
     function openAddProductModal() {
       document.getElementById('product-modal-title').textContent = 'নতুন পারফিউম প্রোডাক্ট যোগ করুন';
       document.getElementById('crud-prod-id').value = '';
@@ -1865,6 +2045,10 @@
       const smsTplEl = document.getElementById('setting-smsTemplate');
       if (smsTplEl) smsTplEl.value = settings.smsTemplate || '';
 
+      // Google Analytics & Firebase ID
+      const gaEl = document.getElementById('setting-googleAnalyticsId');
+      if (gaEl) gaEl.value = settings.googleAnalyticsId || '';
+
       // Admin Login Credentials
       const adminUserEl = document.getElementById('setting-adminUsername');
       if (adminUserEl) adminUserEl.value = settings.adminUsername || 'admin';
@@ -1906,9 +2090,19 @@
       setVal('content-aboutSubtitle', settings.aboutSubtitle);
       setVal('content-aboutDesc1', settings.aboutDesc1);
       setVal('content-aboutDesc2', settings.aboutDesc2);
+      setVal('content-aboutImage', settings.aboutImage || 'assets/images/about-hand-perfume.jpg');
+      updateImagePreview(settings.aboutImage || 'assets/images/about-hand-perfume.jpg', 'content-aboutImage-preview');
 
       setVal('content-whySubtitle', settings.whySubtitle);
       setVal('content-whyTitle', settings.whyTitle);
+      setVal('content-whyImage1', settings.whyImage1 || 'assets/images/why-1.jpg');
+      updateImagePreview(settings.whyImage1 || 'assets/images/why-1.jpg', 'content-whyImage1-preview');
+      setVal('content-whyImage2', settings.whyImage2 || 'assets/images/why-2.jpg');
+      updateImagePreview(settings.whyImage2 || 'assets/images/why-2.jpg', 'content-whyImage2-preview');
+      setVal('content-whyImage3', settings.whyImage3 || 'assets/images/why-3.jpg');
+      updateImagePreview(settings.whyImage3 || 'assets/images/why-3.jpg', 'content-whyImage3-preview');
+      setVal('content-whyImage4', settings.whyImage4 || 'assets/images/why-4.jpg');
+      updateImagePreview(settings.whyImage4 || 'assets/images/why-4.jpg', 'content-whyImage4-preview');
       setVal('content-feat1Title', settings.feat1Title);
       setVal('content-feat1Desc', settings.feat1Desc);
       setVal('content-feat2Title', settings.feat2Title);
@@ -1946,9 +2140,14 @@
         aboutSubtitle: document.getElementById('content-aboutSubtitle').value,
         aboutDesc1: document.getElementById('content-aboutDesc1').value,
         aboutDesc2: document.getElementById('content-aboutDesc2').value,
+        aboutImage: document.getElementById('content-aboutImage')?.value || 'assets/images/about-hand-perfume.jpg',
 
         whySubtitle: document.getElementById('content-whySubtitle').value,
         whyTitle: document.getElementById('content-whyTitle').value,
+        whyImage1: document.getElementById('content-whyImage1')?.value || 'assets/images/why-1.jpg',
+        whyImage2: document.getElementById('content-whyImage2')?.value || 'assets/images/why-2.jpg',
+        whyImage3: document.getElementById('content-whyImage3')?.value || 'assets/images/why-3.jpg',
+        whyImage4: document.getElementById('content-whyImage4')?.value || 'assets/images/why-4.jpg',
         feat1Title: document.getElementById('content-feat1Title').value,
         feat1Desc: document.getElementById('content-feat1Desc').value,
         feat2Title: document.getElementById('content-feat2Title').value,
@@ -2002,6 +2201,7 @@
         smsApiKey: document.getElementById('setting-smsApiKey').value.trim(),
         smsSenderId: document.getElementById('setting-smsSenderId').value.trim(),
         smsTemplate: document.getElementById('setting-smsTemplate').value.trim(),
+        googleAnalyticsId: (document.getElementById('setting-googleAnalyticsId')?.value || '').trim(),
         adminUsername: (document.getElementById('setting-adminUsername') ? document.getElementById('setting-adminUsername').value.trim() : 'admin') || 'admin',
         adminPassword: (document.getElementById('setting-adminPassword') ? document.getElementById('setting-adminPassword').value.trim() : 'admin123') || 'admin123'
       };
