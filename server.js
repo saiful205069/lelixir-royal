@@ -95,8 +95,13 @@ const DEFAULT_SETTINGS = {
   aboutSubtitle: "“Our Legacy Of Luxury”",
   aboutDesc1: "At L’Élixir Royal, we blend artisanal craftsmanship with the finest ingredients. Each scent is a journey—a sensory experience that embodies grace and sophistication.",
   aboutDesc2: "Born in the historic perfume corridors of Grasse and inspired by ancient dynastic incense recipes, our perfumers work exclusively with sustainably harvested botanicals, aged Assamese agarwood, and rare Florentine orris.",
+  aboutImage: "assets/images/about-hand-perfume.jpg",
   whySubtitle: "luxury redefined—crafted for the exceptional",
   whyTitle: "Why Choose Us",
+  whyImage1: "assets/images/why-1.jpg",
+  whyImage2: "assets/images/why-2.jpg",
+  whyImage3: "assets/images/why-3.jpg",
+  whyImage4: "assets/images/why-4.jpg",
   feat1Title: "Artistic Design",
   feat1Desc: "Every fragrance is a masterpiece, crafted with precision by world-class perfumers.",
   feat2Title: "Organic Ingredients",
@@ -110,6 +115,7 @@ const DEFAULT_SETTINGS = {
   purityDesc2: "Our packaging is created from recyclable crystal glass, certified FSC forest paper, and solvent-free vegetable inks.",
   newsletterTitle: "Stay Connected with L’Élixir Royal",
   newsletterDesc: "Receive exclusive offers, first looks at new fragrances, and invitations to private events.",
+  googleAnalyticsId: "",
   adminUsername: "admin",
   adminPassword: "admin123"
 };
@@ -317,7 +323,7 @@ app.get('/api/admin/check-session', requireAdminAuth, (req, res) => {
 
 // GET /api/settings (Publicly safe version without admin credentials)
 app.get('/api/settings', (req, res) => {
-  const settings = readJson(SETTINGS_FILE, DEFAULT_SETTINGS);
+  const settings = { ...DEFAULT_SETTINGS, ...readJson(SETTINGS_FILE, DEFAULT_SETTINGS) };
   const safeSettings = { ...settings };
   delete safeSettings.adminUsername;
   delete safeSettings.adminPassword;
@@ -326,7 +332,7 @@ app.get('/api/settings', (req, res) => {
 
 // POST /api/settings (Update Store Settings - Protected for Admin)
 app.post('/api/settings', requireAdminAuth, (req, res) => {
-  const current = readJson(SETTINGS_FILE, DEFAULT_SETTINGS);
+  const current = { ...DEFAULT_SETTINGS, ...readJson(SETTINGS_FILE, DEFAULT_SETTINGS) };
   const updated = { ...current, ...req.body };
   writeJson(SETTINGS_FILE, updated);
   res.json({ success: true, message: 'সেটিংস সফলভাবে আপডেট করা হয়েছে!', data: updated });
@@ -824,7 +830,7 @@ app.post('/api/orders', async (req, res) => {
       });
     }
 
-    const settings = readJson(SETTINGS_FILE, DEFAULT_SETTINGS);
+    const settings = { ...DEFAULT_SETTINGS, ...readJson(SETTINGS_FILE, DEFAULT_SETTINGS) };
 
     // Calculate Subtotal in ৳ BDT
     const subtotal = items.reduce((sum, item) => sum + (Number(item.price) * Number(item.quantity)), 0);
@@ -975,7 +981,7 @@ app.post('/api/sms/resend/:orderId', requireAdminAuth, async (req, res) => {
       return res.status(404).json({ success: false, message: 'অর্ডার পাওয়া যায়নি।' });
     }
 
-    const settings = readJson(SETTINGS_FILE, DEFAULT_SETTINGS);
+    const settings = { ...DEFAULT_SETTINGS, ...readJson(SETTINGS_FILE, DEFAULT_SETTINGS) };
     const smsRecord = await sendOrderConfirmationSMS(order, settings, req);
     res.json({ success: true, message: `অর্ডার ${order.orderId} এর কনফার্মেশন ও ট্র্যাকিং SMS সফলভাবে পাঠানো হয়েছে!`, smsRecord });
   } catch (err) {
@@ -990,7 +996,7 @@ app.post('/api/sms/test', requireAdminAuth, async (req, res) => {
     if (!phone) {
       return res.status(400).json({ success: false, message: 'ফোন নম্বর প্রদান করুন।' });
     }
-    const settings = readJson(SETTINGS_FILE, DEFAULT_SETTINGS);
+    const settings = { ...DEFAULT_SETTINGS, ...readJson(SETTINGS_FILE, DEFAULT_SETTINGS) };
     const dummyOrder = {
       orderId: `LR-TEST-${Math.floor(1000 + Math.random() * 9000)}`,
       customer: { fullName: 'প্রিয় গ্রাহক (Test)', phone },
@@ -1032,7 +1038,7 @@ app.get('/api/admin/data', requireAdminAuth, (req, res) => {
   const subscribers = readJson(SUBSCRIBERS_FILE);
   const messages = readJson(MESSAGES_FILE);
   const products = readJson(PRODUCTS_FILE);
-  const settings = readJson(SETTINGS_FILE, DEFAULT_SETTINGS);
+  const settings = { ...DEFAULT_SETTINGS, ...readJson(SETTINGS_FILE, DEFAULT_SETTINGS) };
   const reviews = readJson(REVIEWS_FILE);
   const smsLogs = readJson(SMS_LOGS_FILE, []);
 
