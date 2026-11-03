@@ -1,24 +1,5 @@
 [
   {
-    "id": "msg-1793634905890",
-    "name": "VIP Guest",
-    "email": "guest@example.com",
-    "phone": "N/A",
-    "subject": "Inquiry",
-    "message": "Testing concierge",
-    "createdAt": "2026-11-02T15:55:05.890Z",
-    "status": "unread"
-  },
-  {
-    "id": "msg-1793461377664",
-    "name": "Prince Arthur",
-    "email": "arthur@royalty.uk",
-    "subject": "VIP Order",
-    "message": "Please prepare custom 200ml flacons.",
-    "createdAt": "2026-10-31T15:42:57.664Z",
-    "status": "unread"
-  },
-  {
     "id": "msg-101",
     "name": "Lady Camille Dupont",
     "email": "camille.dupont@vogue-paris.fr",
