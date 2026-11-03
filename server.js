@@ -323,6 +323,7 @@ app.get('/api/admin/check-session', requireAdminAuth, (req, res) => {
 
 // GET /api/settings (Publicly safe version without admin credentials)
 app.get('/api/settings', (req, res) => {
+  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
   const settings = { ...DEFAULT_SETTINGS, ...readJson(SETTINGS_FILE, DEFAULT_SETTINGS) };
   const safeSettings = { ...settings };
   delete safeSettings.adminUsername;
@@ -340,6 +341,7 @@ app.post('/api/settings', requireAdminAuth, (req, res) => {
 
 // GET /api/products
 app.get('/api/products', (req, res) => {
+  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
   const products = readJson(PRODUCTS_FILE);
   const { category, search, featured } = req.query;
 

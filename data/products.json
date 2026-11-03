@@ -9,7 +9,7 @@
     "category": "Oud & Spices",
     "rating": 5,
     "reviewsCount": 312,
-    "image": "assets/images/sovereign-oud.jpg",
+    "image": "uploads/perfume-1793734618029-1000084863jpg.jpg",
     "description": "The signature emblem of L’Élixir Royal. Distilled from century-old vintage Assam agarwood and fused with pure Persian saffron threads, warm cinnamon bark, and golden labdanum. A fragrance of imperial sovereignty and majestic mystery.",
     "volume": "100 ml / 3.4 FL. OZ.",
     "concentration": "Pure Parfum Absolu (38% concentration)",
@@ -42,10 +42,10 @@
     "price": 3650,
     "originalPrice": 4500,
     "discount": "19% OFF",
-    "category": "Oud & Spices",
+    "category": "Woody Oriental",
     "rating": 5,
     "reviewsCount": 1,
-    "image": "uploads/perfume-1793558021983-1000084617jpg.jpg",
+    "image": "uploads/perfume-1793734700131-1000084629jpg.jpg",
     "description": "Masterpiece perfume from L’Élixir Royal.",
     "volume": "100 ml / 3.4 FL. OZ.",
     "concentration": "Extrait de Parfum (30%)",
@@ -150,7 +150,7 @@
     "category": "Fresh Citrus",
     "rating": 4.8,
     "reviewsCount": 96,
-    "image": "assets/images/mystic-dawn.jpg",
+    "image": "uploads/perfume-1793734749857-1000084534jpg.jpg",
     "description": "Crisp Mediterranean sea breeze infused with sun-drenched Calabrian bergamot and crystal marine accords. Mystic Dawn delivers an intoxicating jolt of vitality that evolves into soothing solar amber and cedarwood drift.",
     "volume": "100 ml / 3.4 FL. OZ.",
     "concentration": "Eau de Parfum (24% concentration)",
@@ -183,10 +183,10 @@
     "price": 2950,
     "originalPrice": 3600,
     "discount": "18% OFF",
-    "category": "Floral",
+    "category": "Fresh Citrus",
     "rating": 4.8,
     "reviewsCount": 74,
-    "image": "assets/images/fleur-royale.jpg",
+    "image": "uploads/perfume-1793734804495-1000084608jpg.jpg",
     "description": "An aristocratic ode to pure white florals. Carnal night-blooming tuberose from India harmonizes with French magnolia and creamy sandalwood, radiating pure poise and magnetic charm.",
     "volume": "100 ml / 3.4 FL. OZ.",
     "concentration": "Eau de Parfum (25% concentration)",
@@ -209,7 +209,7 @@
         "Soft Benzoin"
       ]
     },
-    "featured": true,
+    "featured": false,
     "badge": "Haute Exclusive"
   }
 ]

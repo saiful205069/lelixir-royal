@@ -6,8 +6,8 @@
   "insideDhakaDelivery": 70,
   "outsideDhakaDelivery": 130,
   "freeShippingThreshold": 2500,
-  "contactPhone": "+880 1711-000000",
-  "contactEmail": "concierge@lelixirroyal.com",
+  "contactPhone": "+880 1769911466",
+  "contactEmail": "lelixirroyal@gmail.com",
   "contactAddress": "Gulshan Avenue, Dhaka, Bangladesh",
   "smsEnabled": true,
   "smsGatewayProvider": "Simulation",
@@ -29,7 +29,7 @@
   "aboutSubtitle": "“Our Legacy Of Luxury”",
   "aboutDesc1": "At L’Élixir Royal, we blend artisanal craftsmanship with the finest ingredients. Each scent is a journey—a sensory experience that embodies grace and sophistication.",
   "aboutDesc2": "Born in the historic perfume corridors of Grasse and inspired by ancient dynastic incense recipes, our perfumers work exclusively with sustainably harvested botanicals, aged Assamese agarwood, and rare Florentine orris.",
-  "aboutImage": "assets/images/about-hand-perfume.jpg",
+  "aboutImage": "uploads/perfume-1793735192910-1000084632jpg.jpg",
   "whySubtitle": "luxury redefined—crafted for the exceptional",
   "whyTitle": "Why Choose Us",
   "whyImage1": "assets/images/why-1.jpg",
@@ -49,7 +49,5 @@
   "purityDesc2": "Our packaging is created from recyclable crystal glass, certified FSC forest paper, and solvent-free vegetable inks.",
   "newsletterTitle": "Stay Connected with L’Élixir Royal",
   "newsletterDesc": "Receive exclusive offers, first looks at new fragrances, and invitations to private events.",
-  "googleAnalyticsId": "",
-  "adminUsername": "admin",
-  "adminPassword": "admin1234@"
+  "googleAnalyticsId": ""
 }

@@ -332,7 +332,7 @@ function updateHeroFromProducts(products) {
       name: p.name,
       tagline: p.tagline || 'Haute Parfumerie Exclusive',
       description: p.description || 'Masterpiece perfume from L’Élixir Royal.',
-      image: (p.id === 'sovereign-oud') ? 'assets/images/hero-perfume.jpg' : (p.image || 'assets/images/hero-perfume.jpg'),
+      image: (p.id === 'sovereign-oud' && !p.image?.startsWith('uploads/')) ? 'assets/images/hero-perfume.jpg' : (p.image || 'assets/images/hero-perfume.jpg'),
       price: p.price,
       originalPrice: p.originalPrice,
       discountBadge: discountStr,
@@ -494,7 +494,7 @@ function setupHeroSlider(animate = false) {
    =================================================================== */
 async function fetchProducts() {
   try {
-    const res = await fetch('/api/products');
+    const res = await fetch('/api/products?t=' + Date.now(), { cache: 'no-store' });
     const json = await res.json();
     if (json.success) {
       state.products = json.data;
@@ -522,11 +522,55 @@ function renderProducts(items) {
     return;
   }
 
-  // Prevent destructive layout shift on initial load if products are already pre-rendered
-  if (grid.dataset.renderedCategory === state.currentCategory && grid.children.length === items.length) {
+  // Smooth in-place DOM sync: If cards with matching IDs already exist, update image/text/price directly
+  // This guarantees ZERO layout shift / zero reload jumping, while immediately reflecting Admin Panel changes!
+  const existingCards = Array.from(grid.querySelectorAll('.product-card'));
+  const canUpdateInPlace = existingCards.length === items.length &&
+    items.every((p, idx) => existingCards[idx] && existingCards[idx].dataset.id === p.id);
+
+  if (canUpdateInPlace) {
+    items.forEach((p, idx) => {
+      const card = existingCards[idx];
+      const img = card.querySelector('.product-image-wrap img');
+      if (img && img.getAttribute('src') !== p.image) {
+        img.src = p.image;
+        img.alt = p.name;
+      }
+      const badge = card.querySelector('.product-badge-tag');
+      if (p.badge) {
+        if (badge) {
+          if (badge.textContent !== p.badge) badge.textContent = p.badge;
+        } else {
+          const newBadge = document.createElement('span');
+          newBadge.className = 'product-badge-tag';
+          newBadge.textContent = p.badge;
+          card.querySelector('.product-image-wrap')?.appendChild(newBadge);
+        }
+      } else if (badge) {
+        badge.remove();
+      }
+      const title = card.querySelector('.product-title');
+      if (title && title.textContent !== p.name) title.textContent = p.name;
+      const tagline = card.querySelector('.product-tagline');
+      if (tagline && tagline.textContent !== (p.tagline || '')) tagline.textContent = p.tagline || '';
+      const priceEl = card.querySelector('.product-price');
+      if (priceEl) priceEl.textContent = `৳${Number(p.price).toLocaleString('en-BD')}`;
+      const origPriceEl = card.querySelector('.product-orig-price');
+      if (p.originalPrice) {
+        if (origPriceEl) origPriceEl.textContent = `৳${Number(p.originalPrice).toLocaleString('en-BD')}`;
+        else {
+          const wrap = card.querySelector('.product-price-wrap');
+          if (wrap) wrap.insertAdjacentHTML('beforeend', `<div class="product-orig-price">৳${Number(p.originalPrice).toLocaleString('en-BD')}</div>`);
+        }
+      } else if (origPriceEl) {
+        origPriceEl.remove();
+      }
+    });
+    grid.dataset.renderedCategory = state.currentCategory;
     return;
   }
 
+  // Full re-render when switching categories or adding/removing products
   grid.innerHTML = items.map(p => `
     <article class="product-card" data-id="${p.id}">
       <div class="product-image-wrap">
