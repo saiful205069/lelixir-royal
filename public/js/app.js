@@ -574,7 +574,7 @@ function renderProducts(items) {
   grid.innerHTML = items.map(p => `
     <article class="product-card" data-id="${p.id}">
       <div class="product-image-wrap">
-        <img src="${p.image}" alt="${p.name}" loading="lazy" />
+        <img src="${p.image}" alt="${p.name}" loading="lazy" decoding="async" width="360" height="360" />
         ${p.badge ? `<span class="product-badge-tag">${p.badge}</span>` : ''}
       </div>
       <div class="product-details">

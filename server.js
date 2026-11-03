@@ -38,7 +38,7 @@ app.use(express.static(path.join(__dirname, 'public'), {
       res.setHeader('Cache-Control', 'no-cache, must-revalidate');
       res.setHeader('Pragma', 'no-cache');
     } else if (filePath.match(/\.(jpg|jpeg|png|webp|svg|gif|woff2|woff|ttf)$/i)) {
-      res.setHeader('Cache-Control', 'public, max-age=86400');
+      res.setHeader('Cache-Control', 'public, max-age=604800, stale-while-revalidate=86400');
     }
   }
 }));
@@ -235,10 +235,11 @@ function writeJson(filePath, data) {
   return true;
 }
 
-// ---------------- 24/7 HEALTH & KEEP-ALIVE ROUTE ---------------- //
+// ---------------- 24/7 HEALTH & KEEP-ALIVE ROUTE (UPTIMEROBOT & CRON) ---------------- //
 
-// GET /api/health (Pinged automatically by Vercel Cron to prevent sleeping)
-app.get('/api/health', (req, res) => {
+// GET /api/health & /api/ping (Pinged by UptimeRobot every 5m to eliminate Render cold-starts)
+app.get(['/api/health', '/api/ping'], (req, res) => {
+  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
   res.json({
     status: 'online',
     uptime: Math.floor(process.uptime()),
