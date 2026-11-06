@@ -49,5 +49,7 @@
   "purityDesc2": "Our packaging is created from recyclable crystal glass, certified FSC forest paper, and solvent-free vegetable inks.",
   "newsletterTitle": "Stay Connected with L’Élixir Royal",
   "newsletterDesc": "Receive exclusive offers, first looks at new fragrances, and invitations to private events.",
-  "googleAnalyticsId": ""
+  "googleAnalyticsId": "",
+  "adminUsername": "admin",
+  "adminPassword": "admin123"
 }

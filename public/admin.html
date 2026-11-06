@@ -1073,12 +1073,17 @@
             </div>
             <div class="form-group">
               <label class="form-label">কুপন কোড (Promo Code)</label>
-              <input type="text" id="setting-promoCode" class="form-control" placeholder="ROYAL10" />
+              <input type="text" id="setting-promoCode" class="form-control" style="text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em;" placeholder="ROYAL10" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">কুপন ডিসকাউন্ট শতকরা (%)</label>
+              <input type="number" id="setting-promoDiscount" class="form-control" min="1" max="100" placeholder="10" />
             </div>
 
             <div class="form-group full-width">
               <label class="form-label">টপ অ্যানাউন্সমেন্ট টেক্সট (অফার ব্যানার)</label>
               <input type="text" id="setting-announcementText" class="form-control" required />
+              <small style="color: #8C847A; font-size: 0.8rem; display: block; margin-top: 4px;">টিপস: কুপন কোড পরিবর্তন করলে এই টেক্সটেও কোডটি উল্লেখ করে দিন (যেমন: Use Code: EID20)।</small>
             </div>
 
             <div class="form-group">
@@ -2060,7 +2065,9 @@
       
       // Store Settings
       document.getElementById('setting-storeName').value = settings.storeName || '';
-      document.getElementById('setting-promoCode').value = settings.promoCode || '';
+      document.getElementById('setting-promoCode').value = settings.promoCode || 'ROYAL10';
+      const promoDiscEl = document.getElementById('setting-promoDiscount');
+      if (promoDiscEl) promoDiscEl.value = settings.promoDiscount || 10;
       document.getElementById('setting-announcementText').value = settings.announcementText || '';
       document.getElementById('setting-insideDhakaDelivery').value = settings.insideDhakaDelivery || 70;
       document.getElementById('setting-outsideDhakaDelivery').value = settings.outsideDhakaDelivery || 130;
@@ -2224,7 +2231,8 @@
       e.preventDefault();
       const payload = {
         storeName: document.getElementById('setting-storeName').value,
-        promoCode: document.getElementById('setting-promoCode').value,
+        promoCode: (document.getElementById('setting-promoCode').value.trim() || 'ROYAL10').toUpperCase(),
+        promoDiscount: Number(document.getElementById('setting-promoDiscount')?.value) || 10,
         announcementText: document.getElementById('setting-announcementText').value,
         insideDhakaDelivery: Number(document.getElementById('setting-insideDhakaDelivery').value),
         outsideDhakaDelivery: Number(document.getElementById('setting-outsideDhakaDelivery').value),

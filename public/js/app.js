@@ -12,6 +12,7 @@ const state = {
   heroIndex: 0,
   promoDiscountRate: 0,
   appliedPromo: '',
+  appliedPromoCode: '',
   reviews: [],
   currentReviewIndex: 0,
   settings: {
@@ -237,7 +238,40 @@ function applyDynamicContent(s) {
   setTxt('footer-phone-el', s.contactPhone);
   setTxt('footer-email-el', s.contactEmail);
   setTxt('footer-address-el', s.contactAddress);
-  setTxt('announcement-text-el', s.announcementText);
+
+  // Dynamic Privilege Promo Code & Announcement Bar
+  const activePromo = (s.promoCode || 'ROYAL10').toUpperCase();
+  const activeDiscount = Number(s.promoDiscount) || 10;
+  const freeThreshold = Number(s.freeShippingThreshold) || 2500;
+
+  if (s.announcementText) {
+    setTxt('announcement-text-el', s.announcementText);
+  } else {
+    setTxt('announcement-text-el', `Complimentary Delivery across Bangladesh on orders over ৳${freeThreshold.toLocaleString('en-BD')} • Cash On Delivery Available • Use Code: ${activePromo}`);
+  }
+
+  const phoneLink = document.getElementById('announcement-phone-link');
+  if (phoneLink && s.contactPhone) {
+    phoneLink.href = `tel:${s.contactPhone.replace(/[^0-9+]/g, '')}`;
+    const phoneEl = document.getElementById('announcement-phone-el');
+    if (phoneEl) phoneEl.textContent = s.contactPhone;
+  }
+
+  // Mobile Drawer Privilege Offer Card
+  const mobileOffer = document.getElementById('mobile-offer-promo-text');
+  if (mobileOffer) {
+    mobileOffer.innerHTML = `Apply voucher code <strong>${activePromo}</strong> for an exclusive ${activeDiscount}% privilege discount. Complimentary delivery on orders over ৳${freeThreshold.toLocaleString('en-BD')}!`;
+  }
+
+  // Cart & Checkout Promo Placeholders
+  const cartPromoInput = document.getElementById('cart-promo-input');
+  if (cartPromoInput && !cartPromoInput.value) {
+    cartPromoInput.placeholder = `Privilege code (e.g. ${activePromo})`;
+  }
+  const checkoutPromoInput = document.getElementById('checkout-promo-input');
+  if (checkoutPromoInput && !checkoutPromoInput.value) {
+    checkoutPromoInput.placeholder = `Privilege code (e.g. ${activePromo})`;
+  }
 }
 
 /* ===================================================================
@@ -741,26 +775,64 @@ function setupCartUI() {
     });
   }
 
-  // Promo code apply button
+  // Universal Dynamic Promo Code Applier
+  window.applyPromoCode = function(inputCode) {
+    const code = (inputCode || '').trim().toUpperCase();
+    if (!code) {
+      showToast('Please enter a privilege code', '⚠️');
+      return false;
+    }
+    const activeCode = (state.settings?.promoCode || 'ROYAL10').trim().toUpperCase();
+    const activePct = Number(state.settings?.promoDiscount) || 10;
+
+    if (code === activeCode) {
+      state.promoDiscountRate = activePct / 100;
+      state.appliedPromoCode = activeCode;
+      state.appliedPromo = `${activeCode} (${activePct}% OFF)`;
+      showToast(`Privilege code ${activeCode} applied (${activePct}% OFF)!`, '👑');
+    } else if (code === 'ROYAL10') {
+      state.promoDiscountRate = 0.10;
+      state.appliedPromoCode = 'ROYAL10';
+      state.appliedPromo = 'ROYAL10 (10% OFF)';
+      showToast('Royal 10% privilege applied!', '👑');
+    } else if (code === 'ROYAL30') {
+      state.promoDiscountRate = 0.30;
+      state.appliedPromoCode = 'ROYAL30';
+      state.appliedPromo = 'ROYAL30 (30% OFF)';
+      showToast('Grand 30% privilege applied!', '👑');
+    } else {
+      state.promoDiscountRate = 0;
+      state.appliedPromoCode = '';
+      state.appliedPromo = '';
+      showToast('Invalid privilege code. Please check and try again.', '⚠️');
+      renderCartDrawer();
+      updateCheckoutCalculation();
+      return false;
+    }
+
+    // Synchronize inputs in both cart drawer and checkout modal
+    const cartInput = document.getElementById('cart-promo-input');
+    if (cartInput) cartInput.value = state.appliedPromoCode;
+    const checkoutInput = document.getElementById('checkout-promo-input');
+    if (checkoutInput) checkoutInput.value = state.appliedPromoCode;
+
+    renderCartDrawer();
+    updateCheckoutCalculation();
+    return true;
+  };
+
+  // Promo code apply button in Cart Drawer
   const promoBtn = document.getElementById('cart-apply-promo');
   const promoInput = document.getElementById('cart-promo-input');
   if (promoBtn && promoInput) {
     promoBtn.addEventListener('click', () => {
-      const code = promoInput.value.trim().toUpperCase();
-      if (code === 'ROYAL10') {
-        state.promoDiscountRate = 0.10;
-        state.appliedPromo = 'ROYAL10 (10% OFF)';
-        showToast('Royal 10% privilege applied!', '👑');
-      } else if (code === 'ROYAL30') {
-        state.promoDiscountRate = 0.30;
-        state.appliedPromo = 'ROYAL30 (30% OFF)';
-        showToast('Grand 30% privilege applied!', '👑');
-      } else {
-        state.promoDiscountRate = 0;
-        state.appliedPromo = '';
-        showToast('Invalid privilege code', '⚠️');
+      window.applyPromoCode(promoInput.value);
+    });
+    promoInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        window.applyPromoCode(promoInput.value);
       }
-      renderCartDrawer();
     });
   }
 
@@ -923,6 +995,10 @@ function openCheckoutModal() {
     showToast('Your shopping bag is empty. Please select a fragrance.', '⚠️');
     return;
   }
+  const checkoutPromoInput = document.getElementById('checkout-promo-input');
+  if (checkoutPromoInput && state.appliedPromoCode) {
+    checkoutPromoInput.value = state.appliedPromoCode;
+  }
   updateCheckoutCalculation();
   openModal('checkout-dialog');
 
@@ -977,6 +1053,19 @@ function updateCheckoutCalculation() {
     shipVal.textContent = shipping === 0 ? 'Free Delivery (৳0)' : `৳${shipping}`;
   }
 
+  const discountRow = document.getElementById('checkout-discount-row');
+  const discountVal = document.getElementById('checkout-discount-val');
+  const discountTag = document.getElementById('checkout-discount-tag');
+  if (discountRow) {
+    if (discount > 0) {
+      discountRow.style.display = 'flex';
+      if (discountVal) discountVal.textContent = `-৳${discount.toLocaleString('en-BD')}`;
+      if (discountTag) discountTag.textContent = state.appliedPromo;
+    } else {
+      discountRow.style.display = 'none';
+    }
+  }
+
   const totalVal = document.getElementById('checkout-total-val');
   if (totalVal) {
     totalVal.textContent = `৳${total.toLocaleString('en-BD')}`;
@@ -986,6 +1075,26 @@ function updateCheckoutCalculation() {
 function setupCheckoutForm() {
   const form = document.getElementById('checkout-order-form');
   if (!form) return;
+
+  // Checkout Modal Promo Apply Button & Enter Key Support
+  const checkoutPromoBtn = document.getElementById('checkout-apply-promo-btn');
+  const checkoutPromoInput = document.getElementById('checkout-promo-input');
+  if (checkoutPromoBtn && checkoutPromoInput && !checkoutPromoBtn.dataset.bound) {
+    checkoutPromoBtn.dataset.bound = 'true';
+    checkoutPromoBtn.addEventListener('click', () => {
+      if (typeof window.applyPromoCode === 'function') {
+        window.applyPromoCode(checkoutPromoInput.value);
+      }
+    });
+    checkoutPromoInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        if (typeof window.applyPromoCode === 'function') {
+          window.applyPromoCode(checkoutPromoInput.value);
+        }
+      }
+    });
+  }
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -1006,13 +1115,14 @@ function setupCheckoutForm() {
     const paymentMethod = formData.get('paymentMethod') || 'Cash On Delivery (Pay upon delivery)';
 
     try {
+      const activeCode = state.appliedPromoCode || (state.promoDiscountRate > 0 ? (state.settings?.promoCode || 'ROYAL10') : null);
       const response = await fetch('/api/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           customer,
           items: state.cart,
-          promoCode: state.promoDiscountRate > 0 ? (state.promoDiscountRate === 0.3 ? 'ROYAL30' : 'ROYAL10') : null,
+          promoCode: activeCode,
           paymentMethod
         })
       });
@@ -1020,6 +1130,9 @@ function setupCheckoutForm() {
       const res = await response.json();
       if (res.success) {
         state.cart = [];
+        state.promoDiscountRate = 0;
+        state.appliedPromo = '';
+        state.appliedPromoCode = '';
         saveCart();
         updateCartBadge();
 

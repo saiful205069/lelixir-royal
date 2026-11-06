@@ -814,6 +814,49 @@ async function sendOrderConfirmationSMS(order, settings, req = null) {
   }
 }
 
+// POST /api/promo/validate (Validate coupon code dynamically against live settings)
+app.post('/api/promo/validate', (req, res) => {
+  const { code } = req.body;
+  if (!code) {
+    return res.status(400).json({ success: false, message: 'Please enter a coupon code' });
+  }
+  const settings = { ...DEFAULT_SETTINGS, ...readJson(SETTINGS_FILE, DEFAULT_SETTINGS) };
+  const cleanCode = String(code).trim().toUpperCase();
+  const activePromo = (settings.promoCode || 'ROYAL10').trim().toUpperCase();
+  const activeDiscount = Number(settings.promoDiscount) || 10;
+
+  if (cleanCode === activePromo) {
+    return res.json({
+      success: true,
+      promoCode: activePromo,
+      discountPercent: activeDiscount,
+      discountRate: activeDiscount / 100,
+      message: `${activePromo} applied successfully (${activeDiscount}% OFF)!`
+    });
+  } else if (cleanCode === 'ROYAL10') {
+    return res.json({
+      success: true,
+      promoCode: 'ROYAL10',
+      discountPercent: 10,
+      discountRate: 0.10,
+      message: 'ROYAL10 applied successfully (10% OFF)!'
+    });
+  } else if (cleanCode === 'ROYAL30') {
+    return res.json({
+      success: true,
+      promoCode: 'ROYAL30',
+      discountPercent: 30,
+      discountRate: 0.30,
+      message: 'ROYAL30 applied successfully (30% OFF)!'
+    });
+  } else {
+    return res.status(400).json({
+      success: false,
+      message: 'Invalid privilege or coupon code'
+    });
+  }
+});
+
 // POST /api/orders (Super Easy Checkout for Bangladeshi Customers)
 app.post('/api/orders', async (req, res) => {
   try {
@@ -839,10 +882,18 @@ app.post('/api/orders', async (req, res) => {
     const subtotal = items.reduce((sum, item) => sum + (Number(item.price) * Number(item.quantity)), 0);
     let discount = 0;
 
-    if (promoCode && promoCode.toUpperCase() === 'ROYAL10') {
-      discount = Math.round(subtotal * 0.10);
-    } else if (promoCode && promoCode.toUpperCase() === 'ROYAL30') {
-      discount = Math.round(subtotal * 0.30);
+    const activePromo = (settings.promoCode || 'ROYAL10').trim().toUpperCase();
+    const discountRate = (Number(settings.promoDiscount) || 10) / 100;
+
+    if (promoCode) {
+      const cleanCode = String(promoCode).trim().toUpperCase();
+      if (cleanCode === activePromo) {
+        discount = Math.round(subtotal * discountRate);
+      } else if (cleanCode === 'ROYAL10') {
+        discount = Math.round(subtotal * 0.10);
+      } else if (cleanCode === 'ROYAL30') {
+        discount = Math.round(subtotal * 0.30);
+      }
     }
 
     // Delivery charge calculation for Bangladesh
